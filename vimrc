@@ -17,6 +17,7 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
+Plugin 'easymotion/vim-easymotion'
 " " add all your plugins here (note older versions of Vundle
 " " used Bundle instead of Plugin)
 "
@@ -43,5 +44,13 @@ nnoremap <Tab> %
 "------------NERDTREE-----------"
 map <C-o> :NERDTreeToggle<CR>
 "--------------------FZF--------------------"
-inoremap <C-f> <Esc><Esc>:BLines!<CR>
-map <C-l> <Esc><Esc>:Files!<CR>
+"inoremap <C-f> <Esc><Esc>:BLines!<CR>
+"map <C-l> <Esc><Esc>:Files!<CR>
+map <S-a> <Esc><Esc>:Files!<CR>
+map <S-f> <Esc><Esc>:BLines!<CR>
+"EASYMOTION
+map <leader><leader>. <Plug>(easymotion-repeat)
+map <leader><leader>f <Plug>(easymotion-overwin-f)
+map <leader><leader>j <Plug>(easymotion-overwin-line)
+map <leader><leader>k <Plug>(easymotion-overwin-line)
+map <leader><leader>w <Plug>(easymotion-overwin-w)
