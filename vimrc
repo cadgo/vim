@@ -1,6 +1,15 @@
 set nocompatible              " required
 filetype off                  " required
-
+"Configuraciones CD
+set ignorecase
+set mouse=a
+"set number relativenumber nos muestra en vez del 0 en la linea actual el
+"numero de la linea en el archivo
+set number relativenumber
+"set hls is
+"set rnu
+set cursorline
+set cursorcolumn
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -28,15 +37,16 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 "
 "set number
-set rnu
 syntax on
 filetype indent plugin on
-set hls is
+"set hls is
 if has("autocmd")
         filetype plugin indent on
 endif
 " CD
 map <S-Tab> :tabn<CR>
+map <leader>h :sp<CR>
+map <leader>v :vs<CR>
 if has("autocmd")
         au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
