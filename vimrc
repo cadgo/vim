@@ -6,10 +6,14 @@ set mouse=a
 "set number relativenumber nos muestra en vez del 0 en la linea actual el
 "numero de la linea en el archivo
 set number relativenumber
+"fix splitting
+set splitbelow splitright
 "set hls is
 "set rnu
 set cursorline
 set cursorcolumn
+highlight CursorLine ctermbg=LightBlue cterm=bold guibg=#2b2b2b
+highlight CursorColumn ctermbg=LightBlue cterm=bold guibg=#2b2b2b
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -39,14 +43,14 @@ filetype plugin indent on    " required
 "set number
 syntax on
 filetype indent plugin on
-"set hls is
+set hls is
 if has("autocmd")
         filetype plugin indent on
 endif
 " CD
 map <S-Tab> :tabn<CR>
-map <leader>h :sp<CR>
-map <leader>v :vs<CR>
+map <leader>h :sp<CR><S-a>
+map <leader>v :vs<CR><S-a>
 if has("autocmd")
         au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
