@@ -68,3 +68,6 @@ map <leader><leader>f <Plug>(easymotion-overwin-f)
 map <leader><leader>j <Plug>(easymotion-overwin-line)
 map <leader><leader>k <Plug>(easymotion-overwin-line)
 map <leader><leader>w <Plug>(easymotion-overwin-w)
+" add yaml stuffs
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
