@@ -62,6 +62,7 @@ map <C-o> :NERDTreeToggle<CR>
 "map <C-l> <Esc><Esc>:Files!<CR>
 map <S-a> <Esc><Esc>:Files!<CR>
 map <S-f> <Esc><Esc>:BLines!<CR>
+map <leader>a :Ag<CR>
 "EASYMOTION
 map <leader><leader>. <Plug>(easymotion-repeat)
 map <leader><leader>f <Plug>(easymotion-overwin-f)
