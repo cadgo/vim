@@ -12,8 +12,8 @@ set splitbelow splitright
 "set rnu
 set cursorline
 set cursorcolumn
-highlight CursorLine ctermbg=LightBlue cterm=bold guibg=#2b2b2b
-highlight CursorColumn ctermbg=LightBlue cterm=bold guibg=#2b2b2b
+"highlight CursorLine ctermbg=LightBlue cterm=bold guibg=#2b2b2b
+"highlight CursorColumn ctermbg=LightBlue cterm=bold guibg=#2b2b2b
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
