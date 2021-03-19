@@ -1,3 +1,4 @@
+" :term bash para ejecutar una terminal
 set nocompatible              " required
 filetype off                  " required
 "Configuraciones CD
