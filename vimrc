@@ -32,6 +32,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'pprovost/vim-ps1'
 " " add all your plugins here (note older versions of Vundle
 " " used Bundle instead of Plugin)
 "
@@ -74,3 +75,5 @@ map <leader><leader>s <Plug>(easymotion-s2)
 map <leader><leader>t <Plug>(easymotion-t2)
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+au! BufNewFile,BufReadPost *.{ps1} set filetype=power 
+autocmd FileType power setlocal expandtab tabstop=2 shiftwidth=2 autoindent 
