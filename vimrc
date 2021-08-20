@@ -62,7 +62,7 @@ map <C-o> :NERDTreeToggle<CR>
 "--------------------FZF--------------------"
 "inoremap <C-f> <Esc><Esc>:BLines!<CR>
 "map <C-l> <Esc><Esc>:Files!<CR>
-map <S-a> <Esc><Esc>:Files!<CR>
+map <S-a> <Esc><Esc>:Files! ~<CR>
 map <S-f> <Esc><Esc>:BLines!<CR>
 map <leader>a :Ag<CR>
 "EASYMOTION
@@ -75,5 +75,10 @@ map <leader><leader>s <Plug>(easymotion-s2)
 map <leader><leader>t <Plug>(easymotion-t2)
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-au! BufNewFile,BufReadPost *.{ps1} set filetype=power 
-autocmd FileType power setlocal expandtab tabstop=2 shiftwidth=2 autoindent 
+au! BufNewFile,BufReadPost *.{ps1} set filetype=p1 
+autocmd FileType p1 setlocal expandtab tabstop=2 shiftwidth=2 autoindent 
+augroup exe_code
+	autocmd!
+	autocmd FileType p1 nnoremap <buffer> <localleader>r
+				\ :sp<CR> :term powershell %<CR> :startinsert<CR>
+augroup END
