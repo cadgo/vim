@@ -13,8 +13,8 @@ set splitbelow splitright
 "set rnu
 set cursorline
 set cursorcolumn
-"highlight CursorLine ctermbg=LightBlue cterm=bold guibg=#2b2b2b
-"highlight CursorColumn ctermbg=LightBlue cterm=bold guibg=#2b2b2b
+highlight CursorLine ctermbg=LightBlue cterm=bold guibg=#2b2b2b
+highlight CursorColumn ctermbg=LightBlue cterm=bold guibg=#2b2b2b
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -73,6 +73,12 @@ map <leader><leader>k <Plug>(easymotion-overwin-line)
 map <leader><leader>w <Plug>(easymotion-overwin-w)
 map <leader><leader>s <Plug>(easymotion-s2)
 map <leader><leader>t <Plug>(easymotion-t2)
+" easymotion highlight colors
+hi link EasyMotionTarget Search
+hi link EasyMotionTarget2First Search
+hi link EasyMotionTarget2Second Search
+hi link EasyMotionShade Comment
+"EASYMOTION
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 au! BufNewFile,BufReadPost *.{ps1} set filetype=p1 
