@@ -13,6 +13,12 @@ set splitbelow splitright
 "set rnu
 set cursorline
 set cursorcolumn
+nnoremap <S-j> :m .+1<CR>==
+nnoremap <S-k> :m .-2<CR>==
+inoremap <S-j> <Esc>:m .+1<CR>==gi
+inoremap <S-k> <Esc>:m .-2<CR>==gi
+vnoremap <S-j> :m '>+1<CR>gv=gv
+vnoremap <S-k> :m '<-2<CR>gv=gv
 highlight CursorLine ctermbg=LightBlue cterm=bold guibg=#2b2b2b
 highlight CursorColumn ctermbg=LightBlue cterm=bold guibg=#2b2b2b
 " set the runtime path to include Vundle and initialize
@@ -28,7 +34,6 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'scrooloose/nerdtree'
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 Plugin 'easymotion/vim-easymotion'
