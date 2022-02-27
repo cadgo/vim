@@ -13,12 +13,12 @@ set splitbelow splitright
 "set rnu
 set cursorline
 set cursorcolumn
-nnoremap <S-j> :m .+1<CR>==
-nnoremap <S-k> :m .-2<CR>==
-inoremap <S-j> <Esc>:m .+1<CR>==gi
-inoremap <S-k> <Esc>:m .-2<CR>==gi
-vnoremap <S-j> :m '>+1<CR>gv=gv
-vnoremap <S-k> :m '<-2<CR>gv=gv
+nnoremap <C-j> :m .+1<CR>==
+nnoremap <C-k> :m .-2<CR>==
+inoremap <C-j> <Esc>:m .+1<CR>==gi
+inoremap <C-k> <Esc>:m .-2<CR>==gi
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
 highlight CursorLine ctermbg=LightBlue cterm=bold guibg=#2b2b2b
 highlight CursorColumn ctermbg=LightBlue cterm=bold guibg=#2b2b2b
 " set the runtime path to include Vundle and initialize
@@ -88,6 +88,8 @@ au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 au! BufNewFile,BufReadPost *.{ps1} set filetype=p1 
 autocmd FileType p1 setlocal expandtab tabstop=2 shiftwidth=2 autoindent 
+au! BufNewFile,BufReadPost *.{sh,bash} set filetype=bash foldmethod=indent
+autocmd FileType bash setlocal ts=2 sts=2 sw=2 expandtab
 augroup exe_code
 	autocmd!
 	autocmd FileType p1 nnoremap <buffer> <localleader>r
