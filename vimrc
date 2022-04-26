@@ -84,7 +84,7 @@ hi link EasyMotionTarget2First Search
 hi link EasyMotionTarget2Second Search
 hi link EasyMotionShade Comment
 "EASYMOTION
-au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+au! BufNewFile,BufReadPost *.{yaml,yml,tf} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 au! BufNewFile,BufReadPost *.{ps1} set filetype=p1 
 autocmd FileType p1 setlocal expandtab tabstop=2 shiftwidth=2 autoindent 
