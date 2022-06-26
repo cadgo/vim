@@ -1,4 +1,5 @@
 " :term bash para ejecutar una terminal
+set encoding=utf-8
 set nocompatible              " required
 filetype off                  " required
 "Configuraciones CD
@@ -84,6 +85,8 @@ hi link EasyMotionTarget2First Search
 hi link EasyMotionTarget2Second Search
 hi link EasyMotionShade Comment
 "EASYMOTION
+au BufNewFile,BufRead *.{py} set filetype=python foldmethod=indent
+autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
 au! BufNewFile,BufReadPost *.{yaml,yml,tf} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 au! BufNewFile,BufReadPost *.{ps1} set filetype=p1 
