@@ -1,10 +1,10 @@
 #!/bin/bash
 
-USER=$(id -u)
+USERID=$(id -u)
 isROOT=false
 SFL=("vim" "tmux" "git")
 
-if [[ "$USER" == "0" ]]; then
+if [[ "$USERID" == "0" ]]; then
   isROOT=true
 else
   echo "must execute as root"
