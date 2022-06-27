@@ -2,7 +2,7 @@
 
 USERID=$(id -u)
 isROOT=false
-SFL=("vim" "tmux" "git")
+SFL="vim git tmux"
 
 if [[ "$USERID" == "0" ]]; then
   isROOT=true
@@ -17,8 +17,8 @@ if [[ $isROOT == "true" ]]; then
 fi  
 
 echo "installing vundle"
-mkdir $HOME/git
-git https://github.com/cadgo/vim.git ~/git
+mkdir -p $HOME/git/vim
+git clone https://github.com/cadgo/vim.git ~/git/vim
 cp ~/git/vim/vimrc ~/.vimrc
 cp ~/git/vim/tmux.conf ~/.tmux.conf
 cp ~/git/vim/gitconfig ~/.gitconfig
