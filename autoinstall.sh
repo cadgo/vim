@@ -2,6 +2,7 @@
 
 USERID=$(id -u)
 isROOT=false
+isGRAPHIC=false
 SFL="vim git tmux"
 GRL="keepassx"
 ILIST=""
@@ -16,6 +17,7 @@ while getopts "gn" options; do
     g) 
       echo "graphical install"
       ILIST="$SFL $GRL" 
+      isGRAPHIC=true
       OPT_COUNT=$((OPT_COUNT+1))
     ;;
   esac
@@ -49,3 +51,10 @@ chown -R $(whoami).$(whoami) ~/.vim
 cp ~/git/vim/vimrc ~/.vimrc
 cp ~/git/vim/tmux.conf ~/.tmux.conf
 cp ~/git/vim/gitconfig ~/.gitconfig
+
+echo "insttalling chrome $isGRAPHIC"
+if [[ "$isGRAPHIC" == "true" ]]; then
+	#insttall Chrome
+	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O $HOME/Downloads/chrome-stable.deb
+	dpkg -i $HOME/Downloads/chrome-stable.deb
+fi
