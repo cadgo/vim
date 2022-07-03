@@ -3,7 +3,7 @@
 USERID=$(id -u)
 isROOT=false
 isGRAPHIC=false
-SFL="vim git tmux"
+SFL="vim git tmux virtualenv"
 GRL="keepassx xrdp"
 ILIST=""
 OPT_COUNT=0
