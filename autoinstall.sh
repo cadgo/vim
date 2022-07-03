@@ -4,7 +4,7 @@ USERID=$(id -u)
 isROOT=false
 isGRAPHIC=false
 SFL="vim git tmux"
-GRL="keepassx"
+GRL="keepassx xrdp"
 ILIST=""
 OPT_COUNT=0
 while getopts "gn" options; do
