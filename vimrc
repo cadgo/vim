@@ -68,7 +68,7 @@ map <C-o> :NERDTreeToggle<CR>
 "--------------------FZF--------------------"
 "inoremap <C-f> <Esc><Esc>:BLines!<CR>
 "map <C-l> <Esc><Esc>:Files!<CR>
-map <S-a> <Esc><Esc>:Files! ~<CR>
+map <S-a> <Esc><Esc>:Files! .<CR>
 map <S-f> <Esc><Esc>:BLines!<CR>
 map <leader>a :Ag<CR>
 "EASYMOTION
@@ -87,7 +87,7 @@ hi link EasyMotionShade Comment
 "EASYMOTION
 au BufNewFile,BufRead *.{py} set filetype=python foldmethod=indent
 autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
-au! BufNewFile,BufReadPost *.{yaml,yml,tf} set filetype=yaml foldmethod=indent
+au! BufNewFile,BufReadPost *.{yaml,yml,tf,tfvars} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 au! BufNewFile,BufReadPost *.{ps1} set filetype=p1 
 autocmd FileType p1 setlocal expandtab tabstop=2 shiftwidth=2 autoindent 
