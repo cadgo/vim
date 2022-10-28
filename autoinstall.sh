@@ -57,4 +57,5 @@ if [[ "$isGRAPHIC" == "true" ]]; then
 	#insttall Chrome
 	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O $HOME/Downloads/chrome-stable.deb
 	dpkg -i $HOME/Downloads/chrome-stable.deb
+	apt install -f
 fi
