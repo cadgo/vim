@@ -1,14 +1,56 @@
 #!/bin/bash
-
+HOMEUSER=""
 USERID=$(id -u)
 isROOT=false
 isGRAPHIC=false
+isKALI=false
 SFL="vim git tmux virtualenv"
 GRL="keepassx xrdp"
 ILIST=""
 OPT_COUNT=0
-while getopts "gn" options; do
+LOGFILE="/tmp/autoinstall.log"
+
+function setXrdp(){
+   systemctl enable xrdp.service
+}
+
+function vundleInstall(){
+  echo "installing vundle in $HOME directory" >> $LOGFILE
+  git clone https://github.com/cadgo/vim.git ~/git/vim
+  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  chown -R $(whoami).$(whoami) ~/.vim
+  cp ~/git/vim/vimrc ~/.vimrc
+  cp ~/git/vim/tmux.conf ~/.tmux.conf
+  cp ~/git/vim/gitconfig ~/.gitconfig
+}
+function InstallGoogleChrome(){
+  echo "insttalling chrome $isGRAPHIC" >> $LOGFILE
+  #insttall Chrome
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome-stable.deb
+  dpkg -i /tmp/chrome-stable.deb
+  apt install -f
+}
+
+function installKali(){
+  KALIGUIPKG="kali-desktop-xfce xorg"
+  if [[ $isROOT == "true" ]]; then
+    apt install -y $KALIGUIPKG
+    echo "installing Kali desktop core as root" >> $LOGFILE
+  fi  
+}
+
+while getopts "kgnu:" options; do
   case "${options}" in
+    u)
+      HOMEUSER=$OPTARG 
+    ;;
+    k)
+      echo "Kali Installation" > $LOGFILE
+      ILIST="$SFL $GRL"
+      isGRAPHIC=true
+      isKALI=true
+      OPT_COUNT=$((OPT_COUNT+1))
+    ;;
     n)
       echo "no graphic install"
       ILIST=$SFL
@@ -40,22 +82,18 @@ fi
 
 if [[ $isROOT == "true" ]]; then
   apt update -y && apt upgraded -y
-  apt install -y $ILIST
-fi  
-
-echo "installing vundle"
-mkdir -p $HOME/git/vim
-git clone https://github.com/cadgo/vim.git ~/git/vim
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-chown -R $(whoami).$(whoami) ~/.vim
-cp ~/git/vim/vimrc ~/.vimrc
-cp ~/git/vim/tmux.conf ~/.tmux.conf
-cp ~/git/vim/gitconfig ~/.gitconfig
-
-echo "insttalling chrome $isGRAPHIC"
-if [[ "$isGRAPHIC" == "true" ]]; then
-	#insttall Chrome
-	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O $HOME/Downloads/chrome-stable.deb
-	dpkg -i $HOME/Downloads/chrome-stable.deb
-	apt install -f
+  if [[ $isGRAPHIC == "true" ]]; then 
+    if [[ $isKALI == "true" ]]; then
+      installKali
+    fi
+    InstallGoogleChrome
+    echo $GRL | grep -w -q xrdp
+    if [[ $? == 0 ]]; then
+      setXrdp
+    fi
+  fi
+  apt install -y $ILIST  
+  vundleInstall 
 fi
+
+
