@@ -1,6 +1,6 @@
 #!/bin/bash
 #TODO
-# DETECT OPERATIVE SYSTEM AND CHECK IF IS KALI OR UBUNTU
+# DETECT OPERATIVE SYSTEM AND CHECK IF IS KALI OR UBUNTU <done>
 # DETECT THE USER ON THE CLI CHECK IF EXISTS IF IS NOT CREATE IT
 # IF TE USER EXISTS INSTALL VUNDLE FOR THE USER
 HOMEUSER=""
@@ -13,9 +13,25 @@ GRL="keepassx xrdp"
 ILIST=""
 OPT_COUNT=0
 LOGFILE="/tmp/autoinstall.log"
+OsVer="Ubuntu Kali"
+COS=""
 
 function setXrdp(){
    systemctl enable xrdp.service
+}
+
+function DetectOs(){
+  os=$(lsb_release -d | awk '{print $2}' | tr -d [:blank:])
+  if [[ "$os" == "Kali" ]]; then
+    COS="Kali"
+  fi
+  if [[ "$os" == "Ubuntu" ]]; then
+    COS="Ubuntu"
+  fi
+  if [[ "$COS" == "" ]]; then
+    echo "Imposible to detect OS"
+    exit 1
+  fi
 }
 
 function vundleInstall(){
@@ -42,19 +58,19 @@ function installKali(){
     echo "installing Kali desktop core as root" >> $LOGFILE
   fi  
 }
-
-while getopts "kgnu:" options; do
+DetectOs
+while getopts "gnu:" options; do
   case "${options}" in
     u)
       HOMEUSER=$OPTARG 
     ;;
-    k)
-      echo "Kali Installation" > $LOGFILE
-      ILIST="$SFL $GRL"
-      isGRAPHIC=true
-      isKALI=true
-      OPT_COUNT=$((OPT_COUNT+1))
-    ;;
+    #k)
+    #  echo "Kali Installation" > $LOGFILE
+    #  ILIST="$SFL $GRL"
+    #  isGRAPHIC=true
+    #  isKALI=true
+    #  OPT_COUNT=$((OPT_COUNT+1))
+    #;;
     n)
       echo "no graphic install"
       ILIST=$SFL
@@ -62,6 +78,9 @@ while getopts "kgnu:" options; do
       ;;
     g) 
       echo "graphical install"
+      if [[ "$COS" == "Kali" ]]; then
+        isKALI=true
+      fi
       ILIST="$SFL $GRL" 
       isGRAPHIC=true
       OPT_COUNT=$((OPT_COUNT+1))
