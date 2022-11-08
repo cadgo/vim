@@ -52,7 +52,7 @@ function InstallGoogleChrome(){
 }
 
 function installKali(){
-  KALIGUIPKG="kali-desktop-xfce xorg"
+  KALIGUIPKG="kali-desktop-xfce xorg kali-linux-large"
   if [[ $isROOT == "true" ]]; then
     apt install -y $KALIGUIPKG
     echo "installing Kali desktop core as root" >> $LOGFILE
