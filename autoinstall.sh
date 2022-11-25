@@ -35,6 +35,8 @@ function DetectOs(){
 }
 
 function vundleInstall(){
+#Validate if user exists using id
+#if the user did not exists cant copy to home
   echo "installing vundle in $HOMEUSER directory" >> $LOGFILE
   git clone https://github.com/cadgo/vim.git /home/$HOMEUSER/git/vim
   git clone https://github.com/VundleVim/Vundle.vim.git /home/$HOMEUSER/.vim/bundle/Vundle.vim
