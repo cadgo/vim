@@ -48,7 +48,7 @@ function InstallDocker(){
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     apt update -y
-    apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-compose
   fi
 }
 
@@ -85,6 +85,7 @@ DetectOs
 while getopts "dgnu:" options; do
   case "${options}" in
     d)
+      echo "adding docker to the installation"
       isDocker=true 
     ;;
     u)
