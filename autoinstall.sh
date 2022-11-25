@@ -40,7 +40,7 @@ function InstallDocker(){
     printf '%s\n' "deb https://download.docker.com/linux/debian bullseye stable" | tee /etc/apt/sources.list.d/docker-ce.list
     curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker-ce-archive-keyring.gpg
     apt update -y
-    apt install -y docker-ce docker-ce-cli containerd.io
+    apt install -y docker-ce docker-ce-cli containerd.io docker-compose
   fi
   if [[ "$COS" == "Ubuntu" ]]; then
     apt-get install ca-certificates curl gnupg lsb-release
