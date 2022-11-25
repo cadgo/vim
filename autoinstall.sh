@@ -1,14 +1,76 @@
 #!/bin/bash
-
+#TODO
+# DETECT OPERATIVE SYSTEM AND CHECK IF IS KALI OR UBUNTU <done>
+# DETECT THE USER ON THE CLI CHECK IF EXISTS IF IS NOT CREATE IT
+# IF TE USER EXISTS INSTALL VUNDLE FOR THE USER
+HOMEUSER=""
 USERID=$(id -u)
 isROOT=false
 isGRAPHIC=false
+isKALI=false
 SFL="vim git tmux virtualenv"
 GRL="keepassx xrdp"
 ILIST=""
 OPT_COUNT=0
-while getopts "gn" options; do
+LOGFILE="/tmp/autoinstall.log"
+OsVer="Ubuntu Kali"
+COS=""
+
+function setXrdp(){
+   systemctl enable xrdp.service
+}
+
+function DetectOs(){
+  os=$(lsb_release -d | awk '{print $2}' | tr -d [:blank:])
+  if [[ "$os" == "Kali" ]]; then
+    COS="Kali"
+  fi
+  if [[ "$os" == "Ubuntu" ]]; then
+    COS="Ubuntu"
+  fi
+  if [[ "$COS" == "" ]]; then
+    echo "Imposible to detect OS"
+    exit 1
+  fi
+}
+
+function vundleInstall(){
+  echo "installing vundle in $HOME directory" >> $LOGFILE
+  git clone https://github.com/cadgo/vim.git ~/git/vim
+  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  chown -R $(whoami).$(whoami) ~/.vim
+  cp ~/git/vim/vimrc ~/.vimrc
+  cp ~/git/vim/tmux.conf ~/.tmux.conf
+  cp ~/git/vim/gitconfig ~/.gitconfig
+}
+function InstallGoogleChrome(){
+  echo "insttalling chrome $isGRAPHIC" >> $LOGFILE
+  #insttall Chrome
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome-stable.deb
+  dpkg -i /tmp/chrome-stable.deb
+  apt install -f
+}
+
+function installKali(){
+  KALIGUIPKG="kali-desktop-xfce xorg kali-linux-large"
+  if [[ $isROOT == "true" ]]; then
+    apt install -y $KALIGUIPKG
+    echo "installing Kali desktop core as root" >> $LOGFILE
+  fi  
+}
+DetectOs
+while getopts "gnu:" options; do
   case "${options}" in
+    u)
+      HOMEUSER=$OPTARG 
+    ;;
+    #k)
+    #  echo "Kali Installation" > $LOGFILE
+    #  ILIST="$SFL $GRL"
+    #  isGRAPHIC=true
+    #  isKALI=true
+    #  OPT_COUNT=$((OPT_COUNT+1))
+    #;;
     n)
       echo "no graphic install"
       ILIST=$SFL
@@ -16,6 +78,9 @@ while getopts "gn" options; do
       ;;
     g) 
       echo "graphical install"
+      if [[ "$COS" == "Kali" ]]; then
+        isKALI=true
+      fi
       ILIST="$SFL $GRL" 
       isGRAPHIC=true
       OPT_COUNT=$((OPT_COUNT+1))
@@ -40,22 +105,18 @@ fi
 
 if [[ $isROOT == "true" ]]; then
   apt update -y && apt upgraded -y
-  apt install -y $ILIST
-fi  
-
-echo "installing vundle"
-mkdir -p $HOME/git/vim
-git clone https://github.com/cadgo/vim.git ~/git/vim
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-chown -R $(whoami).$(whoami) ~/.vim
-cp ~/git/vim/vimrc ~/.vimrc
-cp ~/git/vim/tmux.conf ~/.tmux.conf
-cp ~/git/vim/gitconfig ~/.gitconfig
-
-echo "insttalling chrome $isGRAPHIC"
-if [[ "$isGRAPHIC" == "true" ]]; then
-	#insttall Chrome
-	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O $HOME/Downloads/chrome-stable.deb
-	dpkg -i $HOME/Downloads/chrome-stable.deb
-	apt install -f
+  if [[ $isGRAPHIC == "true" ]]; then 
+    if [[ $isKALI == "true" ]]; then
+      installKali
+    fi
+    InstallGoogleChrome
+    echo $GRL | grep -w -q xrdp
+    if [[ $? == 0 ]]; then
+      setXrdp
+    fi
+  fi
+  apt install -y $ILIST  
+  vundleInstall 
 fi
+
+
