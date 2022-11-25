@@ -8,6 +8,7 @@ USERID=$(id -u)
 isROOT=false
 isGRAPHIC=false
 isKALI=false
+isDocker=false
 SFL="vim git tmux virtualenv"
 GRL="keepassx xrdp"
 ILIST=""
@@ -34,16 +35,35 @@ function DetectOs(){
   fi
 }
 
+function InstallDocker(){
+  if [[ "$COS" == "Kali" ]]; then
+    printf '%s\n' "deb https://download.docker.com/linux/debian bullseye stable" | tee /etc/apt/sources.list.d/docker-ce.list
+    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker-ce-archive-keyring.gpg
+    apt update -y
+    apt install -y docker-ce docker-ce-cli containerd.io
+  fi
+  if [[ "$COS" == "Ubuntu" ]]; then
+    apt-get install ca-certificates curl gnupg lsb-release
+    mkdir -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    apt update -y
+    apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  fi
+}
+
 function vundleInstall(){
-#Validate if user exists using id
-#if the user did not exists cant copy to home
-  echo "installing vundle in $HOMEUSER directory" >> $LOGFILE
-  git clone https://github.com/cadgo/vim.git /home/$HOMEUSER/git/vim
-  git clone https://github.com/VundleVim/Vundle.vim.git /home/$HOMEUSER/.vim/bundle/Vundle.vim
-  chown -R $HOMEUSER.$HOMEUSER /home/$HOMEUSER/.vim
-  cp /home/$HOMEUSER/git/vim/vimrc /home/$HOMEUSER/.vimrc
-  cp /home/$HOMEUSER/git/vim/tmux.conf /home/$HOMEUSER/.tmux.conf
-  cp /home/$HOMEUSER/git/vim/gitconfig /home/$HOMEUSER/.gitconfig
+  if id $HOMEUSER &> /dev/null; then
+    echo "installing vundle in $HOMEUSER directory" >> $LOGFILE
+    git clone https://github.com/cadgo/vim.git /home/$HOMEUSER/git/vim
+    git clone https://github.com/VundleVim/Vundle.vim.git /home/$HOMEUSER/.vim/bundle/Vundle.vim
+    chown -R $HOMEUSER.$HOMEUSER /home/$HOMEUSER/.vim
+    cp /home/$HOMEUSER/git/vim/vimrc /home/$HOMEUSER/.vimrc
+    cp /home/$HOMEUSER/git/vim/tmux.conf /home/$HOMEUSER/.tmux.conf
+    cp /home/$HOMEUSER/git/vim/gitconfig /home/$HOMEUSER/.gitconfig
+  else
+    echo "User $HOMEUSER did not exists, cant install vundle"
+  fi
 }
 
 function InstallGoogleChrome(){
@@ -62,8 +82,11 @@ function installKali(){
   fi  
 }
 DetectOs
-while getopts "gnu:" options; do
+while getopts "dgnu:" options; do
   case "${options}" in
+    d)
+      isDocker=true 
+    ;;
     u)
       HOMEUSER=$OPTARG 
     ;;
@@ -119,6 +142,9 @@ if [[ $isROOT == "true" ]]; then
     fi
   fi
   apt install -y $ILIST  
+  if [[ $isDocker == "true" ]]; then
+    InstallDocker
+  fi
   vundleInstall 
 fi
 
