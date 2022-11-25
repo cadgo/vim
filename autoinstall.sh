@@ -2,8 +2,8 @@
 #TODO
 # DETECT OPERATIVE SYSTEM AND CHECK IF IS KALI OR UBUNTU <done>
 # DETECT THE USER ON THE CLI CHECK IF EXISTS IF IS NOT CREATE IT
-# IF TE USER EXISTS INSTALL VUNDLE FOR THE USER
-HOMEUSER=""
+# Fixing vundle by user, using the standard kali user by aws, validate if user exists
+HOMEUSER="kali"
 USERID=$(id -u)
 isROOT=false
 isGRAPHIC=false
@@ -35,14 +35,15 @@ function DetectOs(){
 }
 
 function vundleInstall(){
-  echo "installing vundle in $HOME directory" >> $LOGFILE
-  git clone https://github.com/cadgo/vim.git ~/git/vim
-  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-  chown -R $(whoami).$(whoami) ~/.vim
-  cp ~/git/vim/vimrc ~/.vimrc
-  cp ~/git/vim/tmux.conf ~/.tmux.conf
-  cp ~/git/vim/gitconfig ~/.gitconfig
+  echo "installing vundle in $HOMEUSER directory" >> $LOGFILE
+  git clone https://github.com/cadgo/vim.git /home/$HOMEUSER/git/vim
+  git clone https://github.com/VundleVim/Vundle.vim.git /home/$HOMEUSER/.vim/bundle/Vundle.vim
+  chown -R $HOMEUSER.$HOMEUSER /home/$HOMEUSER/.vim
+  cp /home/$HOMEUSER/git/vim/vimrc /home/$HOMEUSER/.vimrc
+  cp /home/$HOMEUSER/git/vim/tmux.conf /home/$HOMEUSER/.tmux.conf
+  cp /home/$HOMEUSER/git/vim/gitconfig /home/$HOMEUSER/.gitconfig
 }
+
 function InstallGoogleChrome(){
   echo "insttalling chrome $isGRAPHIC" >> $LOGFILE
   #insttall Chrome
