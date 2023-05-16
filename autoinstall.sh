@@ -8,7 +8,7 @@ USERID=$(id -u)
 isROOT=false
 isGRAPHIC=false
 isKALI=false
-isDocker=false
+isPodman=false
 SFL="vim git tmux virtualenv"
 GRL="keepassx xrdp"
 ILIST=""
@@ -35,22 +35,29 @@ function DetectOs(){
   fi
 }
 
-function InstallDocker(){
-  if [[ "$COS" == "Kali" ]]; then
-    printf '%s\n' "deb https://download.docker.com/linux/debian bullseye stable" | tee /etc/apt/sources.list.d/docker-ce.list
-    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker-ce-archive-keyring.gpg
-    apt update -y
-    apt install -y docker-ce docker-ce-cli containerd.io docker-compose
-  fi
-  if [[ "$COS" == "Ubuntu" ]]; then
-    apt-get install -y ca-certificates curl gnupg lsb-release
-    mkdir -p /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    apt update -y
-    apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-compose
-  fi
+function InstallPodman(){
+  apt install -y podman
+  echo "alias docker='podman'" >> /home/$HOMEUSER/.bashrc
+  echo "
+  [registries.search]
+  registries = ['docker.io']" | sudo tee -a /etc/containers/registries.conf
 }
+#function InstallDocker(){
+#  if [[ "$COS" == "Kali" ]]; then
+#    printf '%s\n' "deb https://download.docker.com/linux/debian bullseye stable" | tee /etc/apt/sources.list.d/docker-ce.list
+#    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker-ce-archive-keyring.gpg
+#    apt update -y
+#    apt install -y docker-ce docker-ce-cli containerd.io docker-compose
+#  fi
+#  if [[ "$COS" == "Ubuntu" ]]; then
+#    apt-get install -y ca-certificates curl gnupg lsb-release
+#    mkdir -p /etc/apt/keyrings
+#    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+#    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#    apt update -y
+#    apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-compose
+#  fi
+#}
 
 function vundleInstall(){
   if id $HOMEUSER &> /dev/null; then
@@ -82,11 +89,11 @@ function installKali(){
   fi  
 }
 DetectOs
-while getopts "dgnu:" options; do
+while getopts "pgnu:" options; do
   case "${options}" in
-    d)
+    p)
       echo "adding docker to the installation"
-      isDocker=true 
+      isPodman=true 
     ;;
     u)
       HOMEUSER=$OPTARG 
@@ -143,8 +150,8 @@ if [[ $isROOT == "true" ]]; then
     fi
   fi
   apt install -y $ILIST  
-  if [[ $isDocker == "true" ]]; then
-    InstallDocker
+  if [[ $isPodman == "true" ]]; then
+    InstallPodman  
   fi
   vundleInstall 
 fi
