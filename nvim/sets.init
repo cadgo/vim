@@ -1,0 +1,19 @@
+set encoding=utf-8
+filetype on
+set ignorecase
+set mouse=a
+set number relativenumber
+set splitbelow splitright
+set cursorline
+set cursorcolumn
+filetype plugin indent on    " required
+"
+"set number
+syntax on
+filetype indent plugin on
+set hls is
+if has("autocmd")
+	filetype plugin indent on
+endif
+
+

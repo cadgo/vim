@@ -1,0 +1,2 @@
+map <S-a> <Esc><Esc>:Files! .<CR>
+map <S-f> <Esc><Esc>:BLines!<CR>
