@@ -1,0 +1,15 @@
+au BufNewFile,BufRead *.{py} set filetype=python foldmethod=indent
+autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix
+au! BufNewFile,BufReadPost *.{yaml,yml,tf,tfvars} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+au! BufNewFile,BufReadPost *.{ps1} set filetype=p1 
+autocmd FileType p1 setlocal expandtab tabstop=2 shiftwidth=2 autoindent 
+au! BufNewFile,BufReadPost *.{sh,bash} set filetype=bash foldmethod=indent
+autocmd FileType bash setlocal ts=2 sts=2 sw=2 expandtab
+au! BufNewFile,BufReadPost *.{html,css} set filetype=html foldmethod=indent
+autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
+augroup exe_code
+	autocmd!
+	autocmd FileType p1 nnoremap <buffer> <localleader>r
+				\ :sp<CR> :term powershell %<CR> :startinsert<CR>
+augroup END
